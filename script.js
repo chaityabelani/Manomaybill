@@ -28,14 +28,24 @@ let selectedImage = null;
 // Display menu items
 function displayMenu() {
     const menuContainer = document.querySelector('.menu-items');
+    menuContainer.innerHTML = ''; // Clear existing items
+    
     menuItems.forEach(item => {
         const itemElement = document.createElement('div');
         itemElement.className = 'menu-item';
         itemElement.innerHTML = `
+            <div class="menu-item-actions">
+                <button class="edit-item-btn" onclick="editMenuItem(${item.id})">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="delete-item-btn" onclick="deleteMenuItem(${item.id})">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
             <img src="${item.image}" alt="${item.name}">
             <h3>${item.name}</h3>
             <p>₹${item.price.toFixed(2)}</p>
-            <button onclick="addToCart(${item.id})">Add to Cart</button>
+            <button class="add-to-cart-btn" onclick="addToCart(${item.id})">Add to Cart</button>
         `;
         menuContainer.appendChild(itemElement);
     });
@@ -257,23 +267,35 @@ window.onload = () => {
         // Use default image if none selected
         const imageUrl = selectedImage || 'https://placeholder.com/300x200';
         
-        // Add new menu item
-        const newItem = {
-            id: nextItemId++,
-            name: name,
-            price: price,
-            image: imageUrl
-        };
+        // Check if we're editing or adding
+        const editItemId = addMenuForm.dataset.editItemId;
         
-        menuItems.push(newItem);
+        if (editItemId) {
+            // Update existing item
+            const itemIndex = menuItems.findIndex(item => item.id === parseInt(editItemId));
+            if (itemIndex !== -1) {
+                menuItems[itemIndex].name = name;
+                menuItems[itemIndex].price = price;
+                menuItems[itemIndex].image = imageUrl;
+            }
+            // Clear the edit item ID
+            delete addMenuForm.dataset.editItemId;
+        } else {
+            // Add new menu item
+            const newItem = {
+                id: nextItemId++,
+                name: name,
+                price: price,
+                image: imageUrl
+            };
+            menuItems.push(newItem);
+        }
         
         // Refresh menu display
-        const menuContainer = document.querySelector('.menu-items');
-        menuContainer.innerHTML = '';
         displayMenu();
         
         // Close modal and reset form
-        addMenuModal.style.display = 'none';
+        document.getElementById('add-menu-modal').style.display = 'none';
         resetForm();
     });
 };
@@ -287,4 +309,58 @@ function resetForm() {
         <p>Preview</p>
     `;
     selectedImage = null;
+    
+    // Reset form title and button
+    const modalTitle = document.querySelector('.modal-content h2');
+    const submitBtn = document.querySelector('.submit-btn');
+    
+    modalTitle.textContent = 'Add New Menu Item';
+    submitBtn.textContent = 'Add Item';
+    
+    // Clear any stored edit item ID
+    const addMenuForm = document.getElementById('add-menu-form');
+    delete addMenuForm.dataset.editItemId;
+}
+
+// Edit menu item
+function editMenuItem(itemId) {
+    const item = menuItems.find(item => item.id === itemId);
+    if (!item) return;
+    
+    // Populate the edit form
+    document.getElementById('menu-name').value = item.name;
+    document.getElementById('menu-price').value = item.price;
+    
+    // Show image preview if available
+    const imagePreview = document.getElementById('image-preview');
+    if (item.image && item.image !== 'https://placeholder.com/300x200') {
+        imagePreview.style.backgroundImage = `url(${item.image})`;
+        imagePreview.innerHTML = '';
+        selectedImage = item.image;
+    }
+    
+    // Change form submission to update instead of add
+    const addMenuForm = document.getElementById('add-menu-form');
+    const modalTitle = document.querySelector('.modal-content h2');
+    const submitBtn = document.querySelector('.submit-btn');
+    
+    modalTitle.textContent = 'Edit Menu Item';
+    submitBtn.textContent = 'Update Item';
+    
+    // Store the item ID being edited
+    addMenuForm.dataset.editItemId = itemId;
+    
+    // Show the modal
+    document.getElementById('add-menu-modal').style.display = 'block';
+}
+
+// Delete menu item
+function deleteMenuItem(itemId) {
+    if (confirm('Are you sure you want to delete this menu item?')) {
+        const index = menuItems.findIndex(item => item.id === itemId);
+        if (index !== -1) {
+            menuItems.splice(index, 1);
+            displayMenu();
+        }
+    }
 } 
