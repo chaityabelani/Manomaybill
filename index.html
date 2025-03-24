@@ -34,6 +34,8 @@
                     <!-- Cart items will appear here -->
                 </div>
                 <div class="cart-total">
+                    <h3>Subtotal: $<span id="subtotal-amount">0.00</span></h3>
+                    <h3>Discount: $<span id="discount-amount">0.00</span></h3>
                     <h3>Total: $<span id="total-amount">0.00</span></h3>
                     <button id="checkout-btn">Checkout</button>
                 </div>
@@ -72,6 +74,21 @@
                         <button class="key-decimal">.</button>
                         <button class="key-equals" data-action="calculate">=</button>
                     </div>
+                </div>
+                
+                <div class="discount-section">
+                    <h3>Apply Discount</h3>
+                    <div class="discount-options">
+                        <button class="discount-btn" data-discount="5">5% Off</button>
+                        <button class="discount-btn" data-discount="10">10% Off</button>
+                        <button class="discount-btn" data-discount="15">15% Off</button>
+                        <button class="discount-btn" data-discount="20">20% Off</button>
+                    </div>
+                    <div class="custom-discount">
+                        <input type="number" id="custom-discount" placeholder="Custom %" min="0" max="100">
+                        <button id="apply-custom-discount">Apply</button>
+                    </div>
+                    <button id="remove-discount" class="remove-discount-btn">Remove Discount</button>
                 </div>
             </div>
         </aside>

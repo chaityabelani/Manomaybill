@@ -21,6 +21,7 @@ const menuItems = [
 ];
 
 let cart = [];
+let currentDiscount = 0; // Percentage discount
 
 // Display menu items
 function displayMenu() {
@@ -50,10 +51,12 @@ function addToCart(itemId) {
 // Update cart display
 function updateCart() {
     const cartItems = document.getElementById('cart-items');
+    const subtotalAmount = document.getElementById('subtotal-amount');
+    const discountAmount = document.getElementById('discount-amount');
     const totalAmount = document.getElementById('total-amount');
     
     cartItems.innerHTML = '';
-    let total = 0;
+    let subtotal = 0;
 
     cart.forEach((item, index) => {
         const itemElement = document.createElement('div');
@@ -63,9 +66,15 @@ function updateCart() {
             <button onclick="removeFromCart(${index})">Remove</button></p>
         `;
         cartItems.appendChild(itemElement);
-        total += item.price;
+        subtotal += item.price;
     });
 
+    // Calculate discount and total
+    const discount = (subtotal * currentDiscount) / 100;
+    const total = subtotal - discount;
+
+    subtotalAmount.textContent = subtotal.toFixed(2);
+    discountAmount.textContent = discount.toFixed(2);
     totalAmount.textContent = total.toFixed(2);
 }
 
@@ -73,6 +82,32 @@ function updateCart() {
 function removeFromCart(index) {
     cart.splice(index, 1);
     updateCart();
+}
+
+// Apply discount
+function applyDiscount(percentage) {
+    currentDiscount = percentage;
+    updateCart();
+    
+    // Update active state of discount buttons
+    document.querySelectorAll('.discount-btn').forEach(btn => {
+        if (parseInt(btn.dataset.discount) === percentage) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+}
+
+// Remove discount
+function removeDiscount() {
+    currentDiscount = 0;
+    updateCart();
+    
+    // Remove active state from all discount buttons
+    document.querySelectorAll('.discount-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
 }
 
 // Checkout function
@@ -83,10 +118,41 @@ document.getElementById('checkout-btn').addEventListener('click', () => {
     }
     alert('Thank you for your order!');
     cart = [];
+    removeDiscount();
     updateCart();
 });
 
 // Initialize the website
 window.onload = () => {
     displayMenu();
+    
+    // Add event listeners for discount buttons
+    document.querySelectorAll('.discount-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const discountValue = parseInt(btn.dataset.discount);
+            applyDiscount(discountValue);
+        });
+    });
+    
+    // Add event listener for custom discount
+    document.getElementById('apply-custom-discount').addEventListener('click', () => {
+        const customDiscountInput = document.getElementById('custom-discount');
+        const discountValue = parseInt(customDiscountInput.value);
+        
+        if (isNaN(discountValue) || discountValue < 0 || discountValue > 100) {
+            alert('Please enter a valid discount percentage between 0 and 100');
+            return;
+        }
+        
+        applyDiscount(discountValue);
+        customDiscountInput.value = '';
+        
+        // Remove active state from preset discount buttons
+        document.querySelectorAll('.discount-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+    });
+    
+    // Add event listener for remove discount button
+    document.getElementById('remove-discount').addEventListener('click', removeDiscount);
 }; 
