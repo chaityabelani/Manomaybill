@@ -22,6 +22,8 @@ const menuItems = [
 
 let cart = [];
 let currentDiscount = 0; // Percentage discount
+let nextItemId = 4; // Start after the existing items
+let selectedImage = null;
 
 // Display menu items
 function displayMenu() {
@@ -192,4 +194,97 @@ window.onload = () => {
     
     // Add event listener for remove discount button
     document.getElementById('remove-discount').addEventListener('click', removeDiscount);
-}; 
+
+    // Add Menu Modal functionality
+    const addMenuBtn = document.getElementById('add-menu-btn');
+    const addMenuModal = document.getElementById('add-menu-modal');
+    const closeModal = document.querySelector('.close-modal');
+    const cancelBtn = document.getElementById('cancel-add-menu');
+    const addMenuForm = document.getElementById('add-menu-form');
+    const menuImage = document.getElementById('menu-image');
+    const imagePreview = document.getElementById('image-preview');
+
+    // Open modal
+    addMenuBtn.addEventListener('click', () => {
+        addMenuModal.style.display = 'block';
+    });
+
+    // Close modal
+    closeModal.addEventListener('click', () => {
+        addMenuModal.style.display = 'none';
+        resetForm();
+    });
+
+    cancelBtn.addEventListener('click', () => {
+        addMenuModal.style.display = 'none';
+        resetForm();
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (event) => {
+        if (event.target === addMenuModal) {
+            addMenuModal.style.display = 'none';
+            resetForm();
+        }
+    });
+
+    // Handle image preview
+    menuImage.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imagePreview.style.backgroundImage = `url(${e.target.result})`;
+                imagePreview.innerHTML = '';
+                selectedImage = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Handle form submission
+    addMenuForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        
+        const name = document.getElementById('menu-name').value;
+        const price = parseFloat(document.getElementById('menu-price').value);
+        
+        if (!name || isNaN(price) || price <= 0) {
+            alert('Please fill all fields correctly');
+            return;
+        }
+        
+        // Use default image if none selected
+        const imageUrl = selectedImage || 'https://placeholder.com/300x200';
+        
+        // Add new menu item
+        const newItem = {
+            id: nextItemId++,
+            name: name,
+            price: price,
+            image: imageUrl
+        };
+        
+        menuItems.push(newItem);
+        
+        // Refresh menu display
+        const menuContainer = document.querySelector('.menu-items');
+        menuContainer.innerHTML = '';
+        displayMenu();
+        
+        // Close modal and reset form
+        addMenuModal.style.display = 'none';
+        resetForm();
+    });
+};
+
+// Reset the add menu form
+function resetForm() {
+    document.getElementById('add-menu-form').reset();
+    document.getElementById('image-preview').style.backgroundImage = '';
+    document.getElementById('image-preview').innerHTML = `
+        <i class="fas fa-image"></i>
+        <p>Preview</p>
+    `;
+    selectedImage = null;
+} 

@@ -22,7 +22,12 @@
     <div class="page-container">
         <main>
             <section id="menu">
-                <h2>Our Menu</h2>
+                <div class="menu-header">
+                    <h2>Our Menu</h2>
+                    <button id="add-menu-btn" class="add-menu-btn">
+                        <i class="fas fa-plus"></i> Add Menu Item
+                    </button>
+                </div>
                 <div class="menu-items">
                     <!-- Menu items will be dynamically added here -->
                 </div>
@@ -100,5 +105,38 @@
 
     <script src="script.js"></script>
     <script src="calculator.js"></script>
+
+    <!-- Add Menu Modal -->
+    <div id="add-menu-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Add New Menu Item</h2>
+            <form id="add-menu-form">
+                <div class="form-group">
+                    <label for="menu-name">Item Name:</label>
+                    <input type="text" id="menu-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="menu-price">Price (₹):</label>
+                    <input type="number" id="menu-price" min="1" step="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="menu-image">Image:</label>
+                    <div class="image-upload-container">
+                        <div id="image-preview" class="image-preview">
+                            <i class="fas fa-image"></i>
+                            <p>Preview</p>
+                        </div>
+                        <input type="file" id="menu-image" accept="image/*">
+                        <label for="menu-image" class="upload-btn">Choose Image</label>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancel-add-menu" class="cancel-btn">Cancel</button>
+                    <button type="submit" class="submit-btn">Add Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html> 
