@@ -3,19 +3,19 @@ const menuItems = [
     {
         id: 1,
         name: "Butter Chicken",
-        price: 12.99,
+        price: 499,
         image: "https://placeholder.com/300x200"
     },
     {
         id: 2,
         name: "Paneer Tikka",
-        price: 10.99,
+        price: 399,
         image: "https://placeholder.com/300x200"
     },
     {
         id: 3,
         name: "Biryani",
-        price: 14.99,
+        price: 549,
         image: "https://placeholder.com/300x200"
     }
 ];
@@ -32,7 +32,7 @@ function displayMenu() {
         itemElement.innerHTML = `
             <img src="${item.image}" alt="${item.name}">
             <h3>${item.name}</h3>
-            <p>$${item.price.toFixed(2)}</p>
+            <p>₹${item.price.toFixed(2)}</p>
             <button onclick="addToCart(${item.id})">Add to Cart</button>
         `;
         menuContainer.appendChild(itemElement);
@@ -62,7 +62,7 @@ function updateCart() {
         const itemElement = document.createElement('div');
         itemElement.className = 'cart-item';
         itemElement.innerHTML = `
-            <p>${item.name} - $${item.price.toFixed(2)}
+            <p>${item.name} - ₹${item.price.toFixed(2)}
             <button onclick="removeFromCart(${index})">Remove</button></p>
         `;
         cartItems.appendChild(itemElement);
