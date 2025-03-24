@@ -20,23 +20,60 @@
     </header>
 
     <main>
-        <section id="menu">
-            <h2>Our Menu</h2>
-            <div class="menu-items">
-                <!-- Menu items will be dynamically added here -->
-            </div>
-        </section>
+        <div class="content-wrapper">
+            <div class="main-content">
+                <section id="menu">
+                    <h2>Our Menu</h2>
+                    <div class="menu-items">
+                        <!-- Menu items will be dynamically added here -->
+                    </div>
+                </section>
 
-        <section id="cart-section">
-            <h2>Your Cart</h2>
-            <div id="cart-items">
-                <!-- Cart items will appear here -->
+                <section id="cart-section">
+                    <h2>Your Cart</h2>
+                    <div id="cart-items">
+                        <!-- Cart items will appear here -->
+                    </div>
+                    <div class="cart-total">
+                        <h3>Total: $<span id="total-amount">0.00</span></h3>
+                        <button id="checkout-btn">Checkout</button>
+                    </div>
+                </section>
             </div>
-            <div class="cart-total">
-                <h3>Total: $<span id="total-amount">0.00</span></h3>
-                <button id="checkout-btn">Checkout</button>
+            
+            <div class="calculator-container">
+                <div class="calculator">
+                    <div class="calculator-display">
+                        <div id="calculator-output">0</div>
+                    </div>
+                    <div class="calculator-keys">
+                        <button class="key-clear" data-action="clear">AC</button>
+                        <button class="key-sign" data-action="sign">±</button>
+                        <button class="key-percent" data-action="percent">%</button>
+                        <button class="key-operator" data-action="divide">÷</button>
+                        
+                        <button class="key-number">7</button>
+                        <button class="key-number">8</button>
+                        <button class="key-number">9</button>
+                        <button class="key-operator" data-action="multiply">×</button>
+                        
+                        <button class="key-number">4</button>
+                        <button class="key-number">5</button>
+                        <button class="key-number">6</button>
+                        <button class="key-operator" data-action="subtract">-</button>
+                        
+                        <button class="key-number">1</button>
+                        <button class="key-number">2</button>
+                        <button class="key-number">3</button>
+                        <button class="key-operator" data-action="add">+</button>
+                        
+                        <button class="key-number key-zero">0</button>
+                        <button class="key-decimal">.</button>
+                        <button class="key-equals" data-action="calculate">=</button>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
     </main>
 
     <footer>
@@ -44,5 +81,6 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="calculator.js"></script>
 </body>
 </html> 

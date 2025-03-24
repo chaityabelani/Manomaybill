@@ -45,6 +45,15 @@ main {
     padding: 0 1rem;
 }
 
+.content-wrapper {
+    display: flex;
+    gap: 2rem;
+}
+
+.main-content {
+    flex: 1;
+}
+
 .menu-items {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -95,6 +104,98 @@ main {
     margin-top: 1rem;
 }
 
+/* Calculator Styles */
+.calculator-container {
+    width: 300px;
+    position: sticky;
+    top: 2rem;
+    align-self: flex-start;
+}
+
+.calculator {
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    background-color: #f7f7f7;
+}
+
+.calculator-display {
+    background-color: #333;
+    color: white;
+    text-align: right;
+    padding: 20px;
+    font-size: 24px;
+}
+
+#calculator-output {
+    min-height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.calculator-keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1px;
+    background-color: #999;
+}
+
+.calculator-keys button {
+    border: none;
+    background-color: white;
+    padding: 20px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.calculator-keys button:hover {
+    background-color: #eaeaea;
+}
+
+.key-operator {
+    background-color: #f8a51b !important;
+    color: white;
+}
+
+.key-operator:hover {
+    background-color: #e5951b !important;
+}
+
+.key-equals {
+    background-color: #f8a51b !important;
+    color: white;
+}
+
+.key-equals:hover {
+    background-color: #e5951b !important;
+}
+
+.key-clear, .key-sign, .key-percent {
+    background-color: #d8d9db !important;
+}
+
+.key-clear:hover, .key-sign:hover, .key-percent:hover {
+    background-color: #c5c6c8 !important;
+}
+
+.key-zero {
+    grid-column: span 2;
+}
+
+/* Responsive design */
+@media (max-width: 900px) {
+    .content-wrapper {
+        flex-direction: column;
+    }
+    
+    .calculator-container {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+}
+
 footer {
     background-color: #333;
     color: white;
@@ -103,4 +204,10 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
+    z-index: 100;
+}
+
+/* Add some bottom padding to prevent content from being hidden by the footer */
+body {
+    padding-bottom: 60px;
 } 
