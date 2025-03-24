@@ -55,20 +55,57 @@ function updateCart() {
     const discountAmount = document.getElementById('discount-amount');
     const totalAmount = document.getElementById('total-amount');
     
+    // Clear previous cart items
     cartItems.innerHTML = '';
+    
+    // If cart is empty, show a message
+    if (cart.length === 0) {
+        cartItems.innerHTML = '<p class="empty-cart-message">Your cart is empty</p>';
+        subtotalAmount.textContent = '0.00';
+        discountAmount.textContent = '0.00';
+        totalAmount.textContent = '0.00';
+        return;
+    }
+    
+    // Create table for cart items
+    const table = document.createElement('table');
+    table.className = 'cart-table';
+    
+    // Create table header
+    const thead = document.createElement('thead');
+    thead.innerHTML = `
+        <tr>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+    `;
+    table.appendChild(thead);
+    
+    // Create table body
+    const tbody = document.createElement('tbody');
+    
     let subtotal = 0;
-
+    
+    // Add each cart item to the table
     cart.forEach((item, index) => {
-        const itemElement = document.createElement('div');
-        itemElement.className = 'cart-item';
-        itemElement.innerHTML = `
-            <p>${item.name} - ₹${item.price.toFixed(2)}
-            <button onclick="removeFromCart(${index})">Remove</button></p>
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${item.name}</td>
+            <td class="price-column">₹${item.price.toFixed(2)}</td>
+            <td class="action-column">
+                <button class="remove-btn" onclick="removeFromCart(${index})">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
         `;
-        cartItems.appendChild(itemElement);
+        tbody.appendChild(tr);
         subtotal += item.price;
     });
-
+    
+    table.appendChild(tbody);
+    cartItems.appendChild(table);
+    
     // Calculate discount and total
     const discount = (subtotal * currentDiscount) / 100;
     const total = subtotal - discount;
