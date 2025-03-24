@@ -19,29 +19,30 @@
         </nav>
     </header>
 
-    <main>
-        <div class="content-wrapper">
-            <div class="main-content">
-                <section id="menu">
-                    <h2>Our Menu</h2>
-                    <div class="menu-items">
-                        <!-- Menu items will be dynamically added here -->
-                    </div>
-                </section>
+    <div class="page-container">
+        <main>
+            <section id="menu">
+                <h2>Our Menu</h2>
+                <div class="menu-items">
+                    <!-- Menu items will be dynamically added here -->
+                </div>
+            </section>
 
-                <section id="cart-section">
-                    <h2>Your Cart</h2>
-                    <div id="cart-items">
-                        <!-- Cart items will appear here -->
-                    </div>
-                    <div class="cart-total">
-                        <h3>Total: $<span id="total-amount">0.00</span></h3>
-                        <button id="checkout-btn">Checkout</button>
-                    </div>
-                </section>
-            </div>
-            
-            <div class="calculator-container">
+            <section id="cart-section">
+                <h2>Your Cart</h2>
+                <div id="cart-items">
+                    <!-- Cart items will appear here -->
+                </div>
+                <div class="cart-total">
+                    <h3>Total: $<span id="total-amount">0.00</span></h3>
+                    <button id="checkout-btn">Checkout</button>
+                </div>
+            </section>
+        </main>
+        
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <h3>Quick Calculator</h3>
                 <div class="calculator">
                     <div class="calculator-display">
                         <div id="calculator-output">0</div>
@@ -73,8 +74,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </aside>
+    </div>
 
     <footer>
         <p>&copy; 2024 Manonay. All rights reserved.</p>

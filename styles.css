@@ -8,6 +8,9 @@
 header {
     background-color: #ff6b6b;
     padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 nav {
@@ -39,19 +42,32 @@ nav ul li a {
     font-size: 1.1rem;
 }
 
-main {
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-}
-
-.content-wrapper {
+/* Page layout */
+.page-container {
     display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
     gap: 2rem;
 }
 
-.main-content {
+main {
     flex: 1;
+}
+
+.sidebar {
+    width: 300px;
+}
+
+.sidebar-content {
+    position: sticky;
+    top: 90px;
+}
+
+.sidebar h3 {
+    margin-bottom: 1rem;
+    color: #ff6b6b;
+    text-align: center;
 }
 
 .menu-items {
@@ -105,13 +121,6 @@ main {
 }
 
 /* Calculator Styles */
-.calculator-container {
-    width: 300px;
-    position: sticky;
-    top: 2rem;
-    align-self: flex-start;
-}
-
 .calculator {
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
@@ -154,29 +163,30 @@ main {
 }
 
 .key-operator {
-    background-color: #f8a51b !important;
+    background-color: #ff6b6b !important;
     color: white;
 }
 
 .key-operator:hover {
-    background-color: #e5951b !important;
+    background-color: #e05c5c !important;
 }
 
 .key-equals {
-    background-color: #f8a51b !important;
+    background-color: #ff6b6b !important;
     color: white;
 }
 
 .key-equals:hover {
-    background-color: #e5951b !important;
+    background-color: #e05c5c !important;
 }
 
 .key-clear, .key-sign, .key-percent {
-    background-color: #d8d9db !important;
+    background-color: #ffb8b8 !important;
+    color: #333;
 }
 
 .key-clear:hover, .key-sign:hover, .key-percent:hover {
-    background-color: #c5c6c8 !important;
+    background-color: #ffa5a5 !important;
 }
 
 .key-zero {
@@ -185,14 +195,18 @@ main {
 
 /* Responsive design */
 @media (max-width: 900px) {
-    .content-wrapper {
+    .page-container {
         flex-direction: column;
     }
     
-    .calculator-container {
+    .sidebar {
         width: 100%;
         max-width: 300px;
         margin: 0 auto;
+    }
+    
+    .sidebar-content {
+        position: static;
     }
 }
 
