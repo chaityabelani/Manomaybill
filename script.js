@@ -184,6 +184,15 @@ document.getElementById('checkout-btn').addEventListener('click', () => {
     saveToLocalStorage();
 });
 
+// Clear cart function
+function clearCart() {
+    if (confirm('Are you sure you want to clear your cart?')) {
+        cart = [];
+        updateCart();
+        saveToLocalStorage();
+    }
+}
+
 // Initialize the website
 window.onload = () => {
     displayMenu();

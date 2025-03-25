@@ -614,4 +614,27 @@ input[type="file"] {
     background: linear-gradient(135deg, #ff7600, #ff4b4e);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(255, 126, 49, 0.3);
+}
+
+/* Cart buttons container */
+.cart-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+#clear-cart-btn {
+    background-color: var(--secondary-color);
+    color: var(--text-light);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+#clear-cart-btn:hover {
+    background-color: var(--secondary-dark);
 } 
