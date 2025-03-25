@@ -1,5 +1,5 @@
-// Sample menu items
-const menuItems = [
+// Initialize data from local storage or use defaults
+let menuItems = JSON.parse(localStorage.getItem('menuItems')) || [
     {
         id: 1,
         name: "Butter Chicken",
@@ -20,10 +20,18 @@ const menuItems = [
     }
 ];
 
-let cart = [];
-let currentDiscount = 0; // Percentage discount
-let nextItemId = 4; // Start after the existing items
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let currentDiscount = parseInt(localStorage.getItem('currentDiscount')) || 0;
+let nextItemId = parseInt(localStorage.getItem('nextItemId')) || 4;
 let selectedImage = null;
+
+// Function to save data to local storage
+function saveToLocalStorage() {
+    localStorage.setItem('menuItems', JSON.stringify(menuItems));
+    localStorage.setItem('cart', JSON.stringify(cart));
+    localStorage.setItem('currentDiscount', currentDiscount);
+    localStorage.setItem('nextItemId', nextItemId);
+}
 
 // Display menu items
 function displayMenu() {
@@ -57,6 +65,7 @@ function addToCart(itemId) {
     if (item) {
         cart.push(item);
         updateCart();
+        saveToLocalStorage();
     }
 }
 
@@ -131,12 +140,14 @@ function updateCart() {
 function removeFromCart(index) {
     cart.splice(index, 1);
     updateCart();
+    saveToLocalStorage();
 }
 
 // Apply discount
 function applyDiscount(percentage) {
     currentDiscount = percentage;
     updateCart();
+    saveToLocalStorage();
     
     // Update active state of discount buttons
     document.querySelectorAll('.discount-btn').forEach(btn => {
@@ -152,6 +163,7 @@ function applyDiscount(percentage) {
 function removeDiscount() {
     currentDiscount = 0;
     updateCart();
+    saveToLocalStorage();
     
     // Remove active state from all discount buttons
     document.querySelectorAll('.discount-btn').forEach(btn => {
@@ -169,11 +181,22 @@ document.getElementById('checkout-btn').addEventListener('click', () => {
     cart = [];
     removeDiscount();
     updateCart();
+    saveToLocalStorage();
 });
 
 // Initialize the website
 window.onload = () => {
     displayMenu();
+    updateCart();
+    
+    // Set active discount button if there's a saved discount
+    if (currentDiscount > 0) {
+        document.querySelectorAll('.discount-btn').forEach(btn => {
+            if (parseInt(btn.dataset.discount) === currentDiscount) {
+                btn.classList.add('active');
+            }
+        });
+    }
     
     // Add event listeners for discount buttons
     document.querySelectorAll('.discount-btn').forEach(btn => {
@@ -291,6 +314,9 @@ window.onload = () => {
             menuItems.push(newItem);
         }
         
+        // Save changes to local storage
+        saveToLocalStorage();
+        
         // Refresh menu display
         displayMenu();
         
@@ -361,6 +387,7 @@ function deleteMenuItem(itemId) {
         if (index !== -1) {
             menuItems.splice(index, 1);
             displayMenu();
+            saveToLocalStorage();
         }
     }
 } 
