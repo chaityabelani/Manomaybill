@@ -1,0 +1,14 @@
+<!-- Add this to the navigation -->
+<li><a href="#" id="logout-btn">Logout <i class="fas fa-sign-out-alt"></i></a></li>
+
+<!-- Add this script at the end of the file -->
+<script>
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+        try {
+            await fetch('/api/logout');
+            window.location.href = '/login.html';
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
+    });
+</script> 
