@@ -94,6 +94,7 @@ body {
 
 .input-with-icon {
     position: relative;
+    margin-bottom: 5px;
 }
 
 .input-with-icon i {
@@ -142,4 +143,18 @@ body {
     margin-top: 10px;
     text-align: center;
     min-height: 20px;
+}
+
+.username-message {
+    font-size: 12px;
+    margin-top: 5px;
+    min-height: 15px;
+}
+
+.username-message.available {
+    color: #4CAF50;
+}
+
+.username-message.taken {
+    color: #f44336;
 } 

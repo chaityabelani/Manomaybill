@@ -104,4 +104,38 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     checkAuth();
+
+    // Add this after the existing event listeners in login.js
+    const registerUsername = document.getElementById('register-username');
+    const usernameMessage = document.createElement('div');
+    usernameMessage.className = 'username-message';
+    registerUsername.parentNode.appendChild(usernameMessage);
+
+    // Add debounce function to prevent too many requests
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    }
+
+    // Check username availability with debounce
+    registerUsername.addEventListener('input', debounce(async (e) => {
+        const username = e.target.value.trim();
+        usernameMessage.textContent = '';
+        usernameMessage.className = 'username-message';
+        
+        if (username.length < 3) return;
+        
+        try {
+            const response = await fetch(`/api/check-username/${username}`);
+            const data = await response.json();
+            
+            usernameMessage.textContent = data.message;
+            usernameMessage.className = `username-message ${data.available ? 'available' : 'taken'}`;
+        } catch (error) {
+            console.error('Username check failed:', error);
+        }
+    }, 500));
 }); 

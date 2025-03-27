@@ -7,7 +7,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://chaitya2222:<chaitya2222>@cluster0.3q3v9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+mongoose.connect('mongodb+srv://chaitya2222:chaitya2222@cluster0.3q3v9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
@@ -105,6 +105,25 @@ app.get('/api/check-auth', (req, res) => {
     res.json({ authenticated: false });
 });
 
+// Add this new route to check username availability
+app.get('/api/check-username/:username', async (req, res) => {
+    try {
+        const username = req.params.username;
+        const existingUser = await User.findOne({ username });
+        
+        res.json({ 
+            available: !existingUser,
+            message: existingUser ? 'Username is already taken' : 'Username is available'
+        });
+    } catch (error) {
+        res.status(500).json({ 
+            available: false,
+            message: 'Error checking username',
+            error: error.message 
+        });
+    }
+});
+
 // Serve the main app for authenticated users
 app.get('/', (req, res) => {
     if (req.session.userId) {
@@ -112,6 +131,21 @@ app.get('/', (req, res) => {
     } else {
         res.redirect('/login.html');
     }
+});
+
+// Add this error handling middleware at the end of your routes
+// but before the app.listen() call
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({
+        message: 'Something went wrong!',
+        error: process.env.NODE_ENV === 'production' ? 'Server error' : err.message
+    });
+});
+
+// Also add a catch-all route for any undefined routes
+app.use('*', (req, res) => {
+    res.status(404).json({ message: 'Route not found' });
 });
 
 // Start server
